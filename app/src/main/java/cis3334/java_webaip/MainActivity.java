@@ -73,7 +73,28 @@ public class MainActivity extends AppCompatActivity {
 
     private void getStudentAPI() {
         // ======================= Student must add code here to get JSON data from an API =======================
-        textViewStatus.setText("Not implemented yet ....");
+        String url = "https://api.fxratesapi.com/latest";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, url, null,
+                response -> {
+                    Moshi moshi = new Moshi.Builder().build();
+                    JsonAdapter<CurrencyRate> adapter = moshi.adapter(CurrencyRate.class);
+                    try {
+                        CurrencyRate currencyRate = adapter.fromJson(response.toString());
+                        if (currencyRate != null) {
+                            textViewStatus.setText(currencyRate.getDescription());
+                        } else {
+                            textViewStatus.setText("Parse error: CurrencyRate was null");
+                        }
+                    } catch (IOException e) {
+                        textViewStatus.setText("Parse exception: " + e.getMessage());
+                    }
+                },
+                error -> textViewStatus.setText("ERROR Response: " + error.toString())
+        );
+
+        mRequestQueue.add(jsonObjectRequest);
     }
 
     private void getDogFact() {
@@ -191,6 +212,31 @@ public class MainActivity extends AppCompatActivity {
         mRequestQueue.add(jsonObjectRequest);
     }
 
+    public void getCurrency() {
+        String url = "https://api.fxratesapi.com/latest";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, url, null,
+                response -> {
+                    Moshi moshi = new Moshi.Builder().build();
+                    JsonAdapter<CurrencyRate> adapter = moshi.adapter(CurrencyRate.class);
+                    try {
+                        CurrencyRate currencyRate = adapter.fromJson(response.toString());
+                        if (currencyRate != null) {
+                            textViewStatus.setText(currencyRate.getDescription());
+                        } else {
+                            textViewStatus.setText("Parse error: CurrencyRate was null");
+                        }
+                    } catch (IOException e) {
+                        textViewStatus.setText("Parse exception: " + e.getMessage());
+                    }
+                },
+                error -> textViewStatus.setText("ERROR Response: " + error.toString())
+        );
+
+        mRequestQueue.add(jsonObjectRequest);
+    }
+
     private void setupButtonDogFact() {
         buttonGetFact = findViewById(R.id.buttonGetFact); // reuse same button id
         buttonGetFact.setOnClickListener(v -> {
@@ -206,8 +252,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("CIS 3334", "getCurrency onClick");
                 // Trigger async fetch; UI will update via LiveData observers
-                viewModelCurrency.fetchRate("USD", "EUR");
-                textViewStatus.setText("Fetching EUR rate for USD…");
+                getCurrency();
             }
         });
     }
