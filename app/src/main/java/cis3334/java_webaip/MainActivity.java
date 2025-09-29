@@ -3,6 +3,7 @@ package cis3334.java_webaip;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     // One shared Volley queue for the whole Activity (better than creating one per request)
     private RequestQueue mRequestQueue;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         // ======================= Student must add code here to get JSON data from an API =======================
         String url = "https://today.zenquotes.io/api";
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+        @SuppressLint("SetTextI18n") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 response -> {
                     Moshi moshi = new Moshi.Builder().build();
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     private void getDogFact() {
         String url = "https://dogapi.dog/api/facts";
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+        @SuppressLint("SetTextI18n") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 response -> {
                     Moshi moshi = new Moshi.Builder().build();
@@ -132,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(JSONObject response) {
                         Moshi moshi = new Moshi.Builder().build();
@@ -149,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 },
                 new Response.ErrorListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         textViewStatus.setText("ERROR Response: " + error.toString());
@@ -162,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     private void getSpaceNews() {
         String url = "https://api.spaceflightnewsapi.net/v4/articles/?limit=10&offset=0";
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+        @SuppressLint("SetTextI18n") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 response -> {
                     try {
@@ -216,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
     public void getCurrency() {
         String url = "https://api.fxratesapi.com/latest";
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+        @SuppressLint("SetTextI18n") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 response -> {
                     Moshi moshi = new Moshi.Builder().build();
