@@ -73,17 +73,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void getStudentAPI() {
         // ======================= Student must add code here to get JSON data from an API =======================
-        String url = "https://api.fxratesapi.com/latest";
+        String url = "https://today.zenquotes.io/api";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 response -> {
                     Moshi moshi = new Moshi.Builder().build();
-                    JsonAdapter<CurrencyRate> adapter = moshi.adapter(CurrencyRate.class);
+                    JsonAdapter<StudentDay> adapter = moshi.adapter(StudentDay.class);
                     try {
-                        CurrencyRate currencyRate = adapter.fromJson(response.toString());
-                        if (currencyRate != null) {
-                            textViewStatus.setText(currencyRate.getDescription());
+                        StudentDay studentDay = adapter.fromJson(response.toString());
+                        if (studentDay != null) {
+                            Log.d("CIS 3334", "getStudentAPI: " + response.toString());
+                            textViewStatus.setText(studentDay.getData());
                         } else {
                             textViewStatus.setText("Parse error: CurrencyRate was null");
                         }
